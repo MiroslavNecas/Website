@@ -1,0 +1,15 @@
+## Pages
+- [- Miroslav Necas](/blogpost): No description available
+- [About - Miroslav Necas](/about): Learn more about Miroslav Necas, IT professional with 3 years of experience in web development and system architecture.
+- [Admin Dashboard - Miroslav Necas](/admindashboard): Admin dashboard for managing the portfolio content.
+- [Admin Panel - Miroslav Necas](/admin): Admin panel for managing website content.
+- [Blog - Miroslav Necas](/blog): Personal blog of Miroslav Necas covering web development, technology insights, and professional experiences.
+- [Experience - Miroslav Necas](/jobs): Professional experience and career history of Miroslav Necas, IT professional.
+- [Home - Miroslav Necas](/home): Welcome to Miroslav Necas
+- [Manage About - Admin Panel](/adminabout): Manage personal information and about section.
+- [Manage Blog - Admin Panel](/adminblog): Manage blog posts and content.
+- [Manage Contacts - Admin Panel](/admincontacts): Manage contact information and social links.
+- [Manage Images - Admin Panel](/adminimages): Upload and manage images for your website.
+- [Manage Users - Admin Panel](/adminusers): Manage admin users and permissions.
+- [Monetization Guide - Admin Panel](/adminmonetization): Guide to setting up ads on your blog.
+- [Set Your Password - Miroslav Necas](/setpassword): Set your password to access the admin panel.
