@@ -51,6 +51,6 @@ jobs:
             cd /root
             echo "IMAGE=${{ env.IMAGE_NAME }}@${{ needs.build_and_push.outputs.digest }}" > .env
             docker login ghcr.io -u "${{ github.actor }}" -p "${{ secrets.GITHUB_TOKEN }}"
-            docker compose pull site || true
-            docker compose up -d site --force-recreate
+            docker compose pull personal-site || true
+            docker compose up -d personal-site --force-recreate
             docker image prune -f
