@@ -63,7 +63,7 @@ jobs:
     steps:
       - name: Notify n8n (pushed, starting deploy)
         run: |
-          curl -sS -X POST "${N8N_URL}" -H "Content-Type: application/json" \
+          curl -sS -X POST "${{N8N_URL}}" -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "push_complete",
@@ -103,7 +103,7 @@ jobs:
     steps:
       - name: Notify n8n (final)
         run: |
-          curl -sS -X POST "${N8N_URL}" -H "Content-Type: application/json" \
+          curl -sS -X POST "${{N8N_URL}}" -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "final",
