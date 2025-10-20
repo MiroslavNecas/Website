@@ -48,7 +48,7 @@ jobs:
           script_stop: true
           script: |
             set -e
-            cd /root/website
+            cd /home/website
 
             IMAGE_LINE="IMAGE=${{ env.IMAGE_NAME }}@${{ needs.build_and_push.outputs.digest }}"
             touch .env
