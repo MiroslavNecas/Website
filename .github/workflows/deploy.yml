@@ -51,7 +51,7 @@ jobs:
             # optional GHCR login if your image is private
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin || true
 
-            cd /root/your-stack-dir  # adjust to your compose folder
+            cd /root/website  # adjust to your compose folder
             # ensure compose file references the GHCR image tag `latest` or `${{ needs.build_and_push.outputs.sha }}`
             docker compose pull
             docker compose up -d
