@@ -73,7 +73,7 @@ jobs:
             "sha":  "${{ needs.build.outputs.sha }}",
             "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
-JSON
+          JSON
 
   deploy:
     runs-on: ubuntu-latest
@@ -119,4 +119,4 @@ JSON
             },
             "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
-JSON
+          JSON
