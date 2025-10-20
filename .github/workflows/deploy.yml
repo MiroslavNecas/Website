@@ -10,7 +10,9 @@ permissions:
 
 env:
   IMAGE_NAME: ghcr.io/miroslavnecas/website
-  STACK_DIR: /root/website        # adjust
+  STACK_DIR: /root/website
+  N8N_URL: https://n8n.miroslavnecas.com/webhook/2e1c95a5-e6dd-436b-ba81-d50e7cb18402
+  
 
 jobs:
   build:
@@ -61,7 +63,7 @@ jobs:
     steps:
       - name: Notify n8n (pushed, starting deploy)
         run: |
-          curl -sS -X POST "$N8N_URL" -H "Content-Type: application/json" \
+          curl -sS -X POST "${N8N_URL}" -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "push_complete",
@@ -103,7 +105,7 @@ jobs:
     steps:
       - name: Notify n8n (final)
         run: |
-          curl -sS -X POST "$N8N_URL" -H "Content-Type: application/json" \
+          curl -sS -X POST "${N8N_URL}" -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "final",
