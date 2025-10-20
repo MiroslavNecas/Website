@@ -11,7 +11,7 @@ permissions:
 env:
   IMAGE_NAME: ghcr.io/miroslavnecas/website
   STACK_DIR: /root/website
-  N8N_URL: https://n8n.miroslavnecas.com/webhook/2e1c95a5-e6dd-436b-ba81-d50e7cb18402
+  N8N_URL: ${{ secrets.N8N_WEBHOOK_URL }}
   
 
 jobs:
@@ -73,8 +73,6 @@ jobs:
             "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
           JSON
-        env:
-          N8N_URL: ${{ secrets.N8N_WEBHOOK_URL }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -120,5 +118,3 @@ jobs:
             "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
           JSON
-        env:
-          N8N_URL: ${{ secrets.N8N_WEBHOOK_URL }}
