@@ -12,7 +12,6 @@ env:
   IMAGE_NAME: ghcr.io/miroslavnecas/website
   STACK_DIR: /root/website
   N8N_URL: ${{ secrets.N8N_WEBHOOK_URL }}
-  
 
 jobs:
   build:
@@ -59,11 +58,13 @@ jobs:
 
   notify_predeploy:
     runs-on: ubuntu-latest
-    needs: push
+    needs: [build, push]
     steps:
       - name: Notify n8n (pushed, starting deploy)
         run: |
-          curl -sS -X POST "${{N8N_URL}}" -H "Content-Type: application/json" \
+          set -e
+          echo "POST $N8N_URL"
+          curl --fail -sv -X POST "$N8N_URL" -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "push_complete",
@@ -72,7 +73,7 @@ jobs:
             "sha":  "${{ needs.build.outputs.sha }}",
             "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
-          JSON
+JSON
 
   deploy:
     runs-on: ubuntu-latest
@@ -95,7 +96,6 @@ jobs:
             docker image prune -f
           envs: STACK_DIR,GHCR_USER,GHCR_TOKEN
 
-  # Final status notification after deploy finishes.
   notify_final:
     runs-on: ubuntu-latest
     needs: [build, push, deploy]
@@ -103,7 +103,9 @@ jobs:
     steps:
       - name: Notify n8n (final)
         run: |
-          curl -sS -X POST "${{N8N_URL}}" -H "Content-Type: application/json" \
+          set -e
+          echo "POST $N8N_URL"
+          curl --fail -sv -X POST "$N8N_URL" -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "final",
@@ -117,4 +119,4 @@ jobs:
             },
             "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
-          JSON
+JSON
