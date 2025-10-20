@@ -9,7 +9,7 @@ permissions:
   packages: write
 
 env:
-  IMAGE_NAME: ghcr.io/<your-gh-username>/<repo> # adjust
+  IMAGE_NAME: ghcr.io/miroslavnecas/website
 
 jobs:
   build_and_push:
