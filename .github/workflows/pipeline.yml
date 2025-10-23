@@ -26,25 +26,28 @@ jobs:
     needs: [build, push]
     uses: ./.github/workflows/notify_predeploy.yml
     with:
-      n8n_url: ${{ secrets.N8N_WEBHOOK_URL }}
       sha: ${{ needs.build.outputs.sha }}
-    secrets: inherit
+    secrets:
+      N8N_URL: ${{ secrets.N8N_WEBHOOK_URL }}
 
   deploy:
     needs: push
     uses: ./.github/workflows/deploy.yml
     with:
       stack_dir: /root/website
-    secrets: inherit
+    secrets:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
 
   notify_final:
     if: always()
     needs: [build, push, deploy]
     uses: ./.github/workflows/notify_final.yml
     with:
-      n8n_url: ${{ secrets.N8N_WEBHOOK_URL }}
       sha: ${{ needs.build.outputs.sha }}
       build_result:  ${{ needs.build.result }}
       push_result:   ${{ needs.push.result }}
       deploy_result: ${{ needs.deploy.result }}
-    secrets: inherit
+    secrets:
+      N8N_URL: ${{ secrets.N8N_WEBHOOK_URL }}

@@ -2,9 +2,6 @@ name: _notify_final
 on:
   workflow_call:
     inputs:
-      n8n_url:
-        required: true
-        type: string
       sha:
         required: true
         type: string
@@ -17,6 +14,9 @@ on:
       deploy_result:
         required: true
         type: string
+    secrets:
+      N8N_URL:
+        required: true
 
 jobs:
   notify_final:
@@ -24,9 +24,8 @@ jobs:
     steps:
       - name: Notify n8n (final)
         run: |
-          set -e
-          echo "POST ${{ inputs.n8n_url }}"
-          curl --fail -sv -X POST "${{ inputs.n8n_url }}" -H "Content-Type: application/json" \
+          curl -s -X POST "${{ secrets.N8N_URL }}" \
+            -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "final",

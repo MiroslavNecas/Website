@@ -2,22 +2,21 @@ name: _notify_predeploy
 on:
   workflow_call:
     inputs:
-      n8n_url:
-        required: true
-        type: string
       sha:
         required: true
         type: string
+    secrets:
+      N8N_URL:
+        required: true
 
 jobs:
   notify_predeploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify n8n (pushed, starting deploy)
+      - name: Notify n8n (push complete)
         run: |
-          set -e
-          echo "POST ${{ inputs.n8n_url }}"
-          curl --fail -sv -X POST "${{ inputs.n8n_url }}" -H "Content-Type: application/json" \
+          curl -s -X POST "${{ secrets.N8N_URL }}" \
+            -H "Content-Type: application/json" \
             -d @- <<'JSON'
           {
             "stage": "push_complete",
