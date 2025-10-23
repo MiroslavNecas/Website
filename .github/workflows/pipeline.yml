@@ -1,0 +1,50 @@
+name: Build → Push → Deploy (+Notify)
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      image_name: ghcr.io/miroslavnecas/website
+    secrets: inherit
+
+  push:
+    needs: build
+    uses: ./.github/workflows/push.yml
+    with:
+      image_name: ghcr.io/miroslavnecas/website
+    secrets: inherit
+
+  notify_predeploy:
+    needs: [build, push]
+    uses: ./.github/workflows/notify_predeploy.yml
+    with:
+      n8n_url: ${{ secrets.N8N_WEBHOOK_URL }}
+      sha: ${{ needs.build.outputs.sha }}
+    secrets: inherit
+
+  deploy:
+    needs: push
+    uses: ./.github/workflows/deploy.yml
+    with:
+      stack_dir: /root/website
+    secrets: inherit
+
+  notify_final:
+    if: always()
+    needs: [build, push, deploy]
+    uses: ./.github/workflows/notify_final.yml
+    with:
+      n8n_url: ${{ secrets.N8N_WEBHOOK_URL }}
+      sha: ${{ needs.build.outputs.sha }}
+      build_result:  ${{ needs.build.result }}
+      push_result:   ${{ needs.push.result }}
+      deploy_result: ${{ needs.deploy.result }}
+    secrets: inherit

@@ -1,0 +1,29 @@
+name: _notify_predeploy
+on:
+  workflow_call:
+    inputs:
+      n8n_url:
+        required: true
+        type: string
+      sha:
+        required: true
+        type: string
+
+jobs:
+  notify_predeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify n8n (pushed, starting deploy)
+        run: |
+          set -e
+          echo "POST ${{ inputs.n8n_url }}"
+          curl --fail -sv -X POST "${{ inputs.n8n_url }}" -H "Content-Type: application/json" \
+            -d @- <<'JSON'
+          {
+            "stage": "push_complete",
+            "repo": "${{ github.repository }}",
+            "ref":  "${{ github.ref }}",
+            "sha":  "${{ inputs.sha }}",
+            "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          JSON
